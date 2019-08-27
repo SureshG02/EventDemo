@@ -14,6 +14,8 @@ var currentLatt, currentLong;
 var app = express();
 var output = "";
 
+const port = process.env.PORT || 5001;
+
 request({
   url: `http://ip-api.com/json`,
   json: true
@@ -36,8 +38,7 @@ app.get('/eventdetails', (req, res) => {
       let locationArray = await location.getLocation(results.helsinkievents);
       let weatherArray = await weather.fetchWeather(locationArray);
       let transportArray = await transport.fetchTransport(locationArray, currentLatt, currentLong);
-
-
+      
       console.log("Fetching data..");
 
       for (var i = 0; i < results.helsinkievents.length; i++) {
@@ -54,4 +55,6 @@ app.get('/eventdetails', (req, res) => {
 
 });
 
-app.listen(5001);
+app.listen(port, () => {
+  console.log('Server is up on port ' + port)
+});
