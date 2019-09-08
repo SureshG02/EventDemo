@@ -18,25 +18,6 @@ const query = `query Plan($toLatt: Float!, $toLongi: Float!, $fromLatt: Float!, 
       }
 }}`;
 
-var getTransports = (currentLatt, currentLong, destLatt, destLong, callback) => {
-  fetch('https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      query,
-      variables: { fromLatt: currentLatt, fromLongi: currentLong, toLatt: destLatt, toLongi: destLong },
-    })
-  })
-    .then(r => r.json())
-    .then(data => {
-      callback(undefined, {
-        data
-      });
-      //output = output + jsonOutput+"}";
-      //console.log(output);
-    });
-};
-
 async function fetchTransport(locationArray, currentLatt, currentLong) {
   let promiseArray = [];
   for (var i = 0; i < locationArray.length; i++) {
@@ -58,6 +39,5 @@ async function fetchTransport(locationArray, currentLatt, currentLong) {
 
 
 module.exports = {
-  getTransports: getTransports,
   fetchTransport: fetchTransport
 };
